@@ -15,8 +15,8 @@ yellow = Style("gold1")
 underline = Style("underline")
 red = Style("red1")
 
-game_title = "Your Game Title" #Title of your game.
-game_title_color = red 
+game_title = "Your Game Title" #Title of your game. Will be shown in menus.
+game_title_color = red  #Color in which the title will be in. Must be a predefined style.
 
 import items
 import player
@@ -24,41 +24,46 @@ import rpg
 import sys
 
 class GameManager:
-    """Manage game stuff, such as what do do and such"""
+    """RPG Operations."""
     game_states = [
-        rpg.Part1.home_1,
+        rpg.Part1.home_1, #LIST ALL FUNCTIONS AS "GAME PARTS"
         rpg.Part1.home_2
     ]
-    #List all these states
+    #game_states is the list of functions to execute in RPG.py, order is important.
+    #Also, make sure to prefix the function with "rpg."...
+    
     @classmethod
     def newgame(cls):
-            for save in cls.game_states:
-                player.Player.saved = save.__name__
-                player.Player.save()
-                save()
-                Terminal.clear_all()
-                player.Player.save()
+        """If the player selects NEW GAME in the title screen."""
+            for save in cls.game_states: #Loop through the game states
+                player.Player.saved = save.__name__ #Set save point here
+                player.Player.save() #Store save data, player stuff.
+                save() #Execute the state
+                Terminal.clear_all() #Clear screen
+                player.Player.save() #Save again.
     @classmethod
     def run_continue(cls):
+        """If the player selects CONTINUE in the title screen"""
             try:
-                eff = Data.raw_load("savedata.dat")
-            except:
-                Terminal.clear_all()
+                savedata = Data.raw_load("savedata.dat") #Store data into SAVEDATA
+            except EOFError: #If the savedata file is empty
+                Terminal.clear_all() #Clear screen
                 print("No save file exists. Try starting a new game.")
-                Game.standard_wait()
+                Game.standard_wait() #Wait for Z / Enter
                 return
-            for funct in cls.game_states:
-                if funct.__name__ == eff["saved"]:
-                    i = cls.game_states.index(funct)
-                    break
-            player.Player.load()
-            saves = cls.game_states[i:]
-            for save in saves:
-                player.Player.saved = save.__name__
-                player.Player.save()
-                save()
-                Terminal.clear_all()
-                player.Player.save()
+                #== If there is no error, continue ==#
+            for funct in cls.game_states: #go through game states to find save point.
+                if funct.__name__ == savedata["saved"]: #If the SAVE point is the same as the loop index, then...
+                    i = cls.game_states.index(funct) #set an index at that specific point.
+                    break #Get out of the f***ing loop
+            player.Player.load() #load player data, such as HP, items...
+            saves = cls.game_states[i:] #Replace states with sliced states, starting at save point
+            for save in saves: #GO through each game state
+                player.Player.saved = save.__name__ #set the save point
+                player.Player.save() #save player data
+                save() #Run the state
+                Terminal.clear_all() #Clear screen
+                player.Player.save() #save again
 
 
 class Main:

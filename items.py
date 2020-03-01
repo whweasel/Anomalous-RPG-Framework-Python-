@@ -1,3 +1,4 @@
+#A list of RPG items.
 import random 
 import string
 from scr import Style
@@ -14,9 +15,9 @@ class Item(object):
         self.name = name
         self.description = description
         self.value = value
-        self.interact_label = interact_label
-        self.interact_action = interact_action
-        self.interact_message = interact_message
+        self.interact_label = interact_label #What the interact option will be labeled as
+        self.interact_action = interact_action #What will happen? string will be sent to player.py to be handled
+        self.interact_message = interact_message #What will be said when the interaction happens?
         self.id = (ran_gen(8, "AEIOSUMA23"))
 
     def __repr__(self):
@@ -31,7 +32,7 @@ class Item(object):
         """Called when str() is used on an Item, or when it is printed"""
         return yellow("{}".format(self.name)) + "\n=====\n{}\nValue: {}".format(self.description, self.value)
 class Phone(Item):
-    """Nothing here"""
+    """A phone. Come on."""
     def __init__(self):
         super(Phone, self).__init__(name="Phone",
                              description="An old phone, with your name written on the back.",

@@ -29,7 +29,7 @@ red = Style("red1")
 clear = Terminal.clear_all
 wait = Game.standard_wait
 
-def game_menu(title, choices):
+def game_menu(title, choices): #A menu that will be shown in game, that will include inventory and everything. A "decorated" Menu.menu() function, with arguments.
     while True:
         choices["newln0"] = "=============="
         choices["inventory"] = "Inventory"
@@ -48,11 +48,12 @@ def game_menu(title, choices):
         elif result not in ["newln0", "inventory", "newln1", "playername", "hp", "lv"]:
             return result
 
-class Part1:
+class Part1: #Collection of PARTS, each PART is a function to be executed as a game segment.
     @staticmethod
-    def home_1():
+    def home_1(): #A method. Classes are used to organize each part.
         clear()
-        state = "wake_up_1"
+        state = "wake_up_1" #This is a state machine. It uses a single variable, and if the state variable is a certain variable, a set of commands happen.
+        #The state machine approach is used to create branching and choices.
         while True:
             #Infinite loop
             if state == "wake_up_1":
@@ -74,7 +75,7 @@ class Part1:
                 Game.flavor_text("Simply fork this repl, study this sample game, and you'll be set to make your own RPG! ")
                 break
     @staticmethod
-    def home_2():
+    def home_2(): 
         game_menu(
             title = "Oh, and this is just to show you how continues work. Instead of starting a new game, hit continue, and you'll land on this page. Look at the code, and see how it works for yourself!",
             choices = {

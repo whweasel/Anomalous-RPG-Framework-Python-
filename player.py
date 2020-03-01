@@ -32,6 +32,8 @@ class Player(object):
             items.Phone(),
             items.Bar()
         ]
+
+        #The inventory is a list of item objects, defined in items.py
     
     @classmethod
     def lv_up(cls):
@@ -51,8 +53,9 @@ class Player(object):
         cls.exp = exp
 
     @classmethod
-    def openinv(cls):
+    def openinv(cls): #THIS DOESN'T NEED TO BE MODIFIED!
         """Open the player's inventory"""
+
         while True:
             inventory_items = {thing.id: thing.name for thing in cls.inventory}
             inventory_items["exit"] = "Exit Inventory"
