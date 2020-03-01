@@ -31,19 +31,18 @@ class GameManager:
     ]
     #game_states is the list of functions to execute in RPG.py, order is important.
     #Also, make sure to prefix the function with "rpg."...
-    
     @classmethod
     def newgame(cls):
         """If the player selects NEW GAME in the title screen."""
-            for save in cls.game_states: #Loop through the game states
-                player.Player.saved = save.__name__ #Set save point here
-                player.Player.save() #Store save data, player stuff.
-                save() #Execute the state
-                Terminal.clear_all() #Clear screen
-                player.Player.save() #Save again.
+        for save in cls.game_states: #Loop through the game states
+            player.Player.saved = save.__name__ #Set save point here
+            player.Player.save() #Store save data, player stuff.
+            save() #Execute the state
+            Terminal.clear_all() #Clear screen
+            player.Player.save() #Save again.
     @classmethod
     def run_continue(cls):
-        """If the player selects CONTINUE in the title screen"""
+            """If the player selects CONTINUE in the title screen"""
             try:
                 savedata = Data.raw_load("savedata.dat") #Store data into SAVEDATA
             except EOFError: #If the savedata file is empty
